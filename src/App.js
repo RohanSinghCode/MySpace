@@ -1,26 +1,61 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import  { Portfolio } from './component/Portfolio/Portfolio';
+
+import {skills} from  './constants/Skills';
+import {projects} from './constants/Projects';
+import {about} from './constants/About';
+
+
+class App extends React.Component {
+  constructor(){
+    super();
+    this.state ={
+      selectedSection:"",
+      selectedHeading:"",
+      selectedQuote:"",
+      about:null,
+      skills:null,
+      projects:null,
+    };
+  }
+
+  componentWillMount() {
+    this.setState({
+      about,skills,projects,
+      selectedHeading:about.heading,
+      selectedQuote:about.quote,
+      selectedSection:"about"
+    });
+  }
+
+  handleSectionClick = (section) => {
+    this.setState({
+      selectedSection:section,
+      selectedHeading:this.state[section].heading,
+      selectedQuote:this.state[section].quote
+    })
+    
+  }
+
+  render() {
+    return(
+      <div className="App">
+          <Portfolio 
+             handleSectionClick = {this.handleSectionClick}
+             selectedSection = {this.state.selectedSection}
+             selectedHeading={this.state.selectedHeading}
+             selectedQuote = {this.state.selectedQuote}
+             about={this.state.about}
+             skills = {this.state.skills}
+             projects = {this.state.projects}
+          />
+      </div>
+    )
+  }
 }
 
+
 export default App;
+
